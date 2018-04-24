@@ -18,4 +18,4 @@ Este aplicación ha sido desarrollada en Swift 4
 
 ## Clonación del Proyecto
 
-`$ git clone https://github.com/DiegoOruna/InsoII.git`
+`$ git clone https://github.com/DiegoOruna/BitcoinTicker.git`
