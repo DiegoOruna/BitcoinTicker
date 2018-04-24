@@ -4,22 +4,26 @@ import SwiftyJSON
 
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
-    
+    //URL of API of BTC & ETH
     var baseURLBitcoin = "https://apiv2.bitcoinaverage.com/indices/global/ticker/BTC"
     var baseURLEthereum = "https://apiv2.bitcoinaverage.com/indices/global/ticker/ETH"
+    
     //Default
     var baseURL = "https://apiv2.bitcoinaverage.com/indices/global/ticker/BTC"
-    @objc var baseURL2 = "https://apiv2.bitcoinaverage.com/indices/global/ticker/BTC"
+    var baseURL2 = "https://apiv2.bitcoinaverage.com/indices/global/ticker/BTC"
+    
+    //Currencys
     let currencyArray = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","ILS","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"]
     let currencySymbol = ["$", "R$", "$", "¥", "€", "£", "$", "Rp", "₪", "₹", "¥", "$", "kr", "$", "zł", "lei", "₽", "kr", "$", "$", "R"]
     var currencySelected = "AUD"
     var moneySelected = ""
     var finalURL = ""
-
-    //Pre-setup IBOutlets
+   
+    //IBOutlets
     
     @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet weak var segmented: UISegmentedControl!
+    @IBOutlet weak var textCurrency: UILabel!
     
     @IBAction func segmentedControl(_ sender: UISegmentedControl) {
         let selected = segmented.selectedSegmentIndex
@@ -50,6 +54,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         super.viewDidLoad()
         pickerView.delegate = self
         pickerView.dataSource = self
+        textCurrency.text = currencySelected
         getBitcoinData(url: "\(baseURLBitcoin)AUD")
         setupUI()
         
@@ -71,12 +76,15 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
         finalURL = baseURL2 + currencyArray[row]
+        
         getBitcoinData(url: finalURL)
         
         //Get Current Positions
         currencySelected = currencyArray[row]
         moneySelected = currencySymbol[row]
+        textCurrency.text = currencyArray[row]
         
         print(finalURL)
     }
@@ -121,24 +129,23 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
     }
     
+    //Shadows in the UIView
     func setupUI(){
         firstUIView.layer.shadowColor = UIColor.black.cgColor
         firstUIView.layer.shadowOpacity = 1
         firstUIView.layer.shadowOffset = CGSize.zero
-        firstUIView.layer.shadowRadius = 10
+        firstUIView.layer.shadowRadius = 5
         
-        //        firstUIView.layer.borderColor = UIColor.black.cgColor
-        //        firstUIView.layer.borderWidth  = 1.0
-        //        firstUIView.layer.cornerRadius = 5;
-        //        firstUIView.layer.masksToBounds = true;
         secondUIView.layer.shadowColor = UIColor.black.cgColor
         secondUIView.layer.shadowOpacity = 1
         secondUIView.layer.shadowOffset = CGSize.zero
-        secondUIView.layer.shadowRadius = 10
+        secondUIView.layer.shadowRadius = 5
+
     }
 
 }
 
+//extension to put commas in decimals
 extension Double {
     func withCommas() -> String {
         let numberFormatter = NumberFormatter()
